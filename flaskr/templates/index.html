@@ -3,9 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimerApp</title>
+    <title>タイマーアプリ</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #timer { font-size: 48px; margin: 20px; }
+    </style>
 </head>
 <body>
-    <h1>Timer</h1>
+    <h1>タイマーアプリ</h1>
+    <input type="number" id="input-time" placeholder="秒数を入力" />
+    <button onclick="startTimer()">スタート</button>
+    <div id="timer">0</div>
+
+    <script>
+        function startTimer() {
+            let time = parseInt(document.getElementById("input-time").value);
+            let display = document.getElementById("timer");
+
+            if (isNaN(time) || time <= 0) {
+                display.textContent = "正しい秒数を入力してください!";
+                return;
+            }
+
+            function countdown() {
+                if (time > 0) {
+                    display.textContent = time;
+                    time--;
+                    setTimeout(countdown, 1000); // 1秒ごとに更新
+                } else {
+                    display.textContent = "終了!";
+                }
+            }
+
+            countdown();
+        }
+    </script>
 </body>
 </html>
