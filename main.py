@@ -1,4 +1,21 @@
-import tkinter as tk
+from pathlib import Path
+from flasker import app
+from flask import render_template
+from matplotlib import pyplot as plt
+from io import BytesIO
+from flask import send_file
+from random import randin
+
+@app.route('/title')
+def title_page():
+    return render_template('title.html')
+
+@app.route('/select')
+def select_page():
+    return render_template('select.html')
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 class TimerApp:
     def __init__(self, root, duration):
@@ -70,3 +87,17 @@ label = tk.Label(root, text="", font=("Helvetica", 48))
 label.pack()
 
 root.mainloop()
+
+@app.route('/graph')
+def graph_gen():
+    x = list(range(10))
+    y = [randint(1, 100) for _ in x]
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+
+    img = BytesIO()
+    fig.savefig(img, format='png')
+    img.seek(0)
+
+    return send_file(img, mimetype='image/png')  # Flask経由で画像を返す
